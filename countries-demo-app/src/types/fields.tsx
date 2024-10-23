@@ -107,3 +107,66 @@ export type CountriesResponse = {
     data: Array<CountriesData>;
     error: Array<string>;
 }
+
+export const formatData = (value: any, field: Fields) => {
+    switch (field) {
+        case Fields.name:
+            return value.common;
+        case Fields.tld:
+            return value.join(', ');
+        case Fields.cca2:
+            return value;
+        case Fields.ccn3:
+            return value;
+        case Fields.cca3:
+            return value;
+        case Fields.independent:
+            return value;
+        case Fields.status:
+            return value;
+        case Fields.unMember:
+            return value;
+        case Fields.currencies:
+            return Object.keys(value).map((currency) => `${value[currency].name} (${value[currency].symbol})`).join(', ');
+        case Fields.idd:
+            return `${value.root} ${value.suffixes.join(', ')}`;
+        case Fields.capital:
+            return value.join(', ');
+        case Fields.altSpellings:
+            return value.join(', ');
+        case Fields.region:
+            return value;
+        case Fields.languages:
+            return Object.keys(value).map((language) => `${value[language]}`).join(', ');
+        case Fields.translations:
+            return Object.keys(value).map((translation) => `${value[translation].common} (${value[translation].official})`).join(', ');
+        case Fields.latlng:
+            return value.join(', ');
+        case Fields.landlocked:
+            return value;
+        case Fields.area:
+            return value;
+        case Fields.demonyms:
+            return Object.keys(value).map((demonym) => `${value[demonym].f} (f), ${value[demonym].m} (m)`).join(', ');
+        case Fields.flag:
+            return value;
+        case Fields.maps:
+            return `${value.googleMaps}, ${value.openStreetMaps}`;
+        case Fields.population:
+            return value;
+        case Fields.car:
+            return `${value.signs.join(', ')} (${value.side})`;
+        case Fields.timezones:
+            return value.join(', ');
+        case Fields.flags:
+            return value.join(', ');
+        case Fields.coatOfArms:
+            return `${value.png}, ${value.svg}`;
+        case Fields.startOfWeek:
+            return value;
+        case Fields.capitalInfo:
+            return value.latlng.join(', ');
+        default:
+            return value;
+    }
+}

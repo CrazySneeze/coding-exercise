@@ -4,18 +4,24 @@ import { ColDef } from "ag-grid-community";
 import { getCountries } from "../API/Countries";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { Fields } from "../types/fields";
+import { Fields, formatData } from "../types/fields";
 
-export const Grid = () => {
+type gridProps = {
+    selectedFields: Fields[];
+}
+
+export const Grid = ({selectedFields}: gridProps) => {
     const [rowData, setRowData] = useState<Array<any>>();
     const [error, setError] = useState<string>();
     const service = "all";
-    const field = Object.keys(Fields).map((key) => key);
+    const field = selectedFields.map((field) => field);
     const columnDefs: ColDef[] = [
         ...field.map((field) => {
             return {
                 headerName: field,
                 field: field,
+                valueFormatter: (params: { value: any; }) =>
+                    formatData(params.value, Fields[field as keyof typeof Fields]),
             };
         }),
     ];
@@ -32,7 +38,7 @@ export const Grid = () => {
                 }
             }
         );
-    }, []);
+    }, [selectedFields]);
 
     return (
         <div style={{ height: '100%', width: '100%' }}>
@@ -47,6 +53,7 @@ export const Grid = () => {
                             filter: true,
                             minWidth: 50,
                         }}
+                        pagination={true}
                     />
                 </div>
                 </div>
