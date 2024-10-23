@@ -5,6 +5,7 @@ import { getCountries } from "../API/Countries";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Fields, formatData } from "../types/fields";
+import { Modal } from "../Modal/modal";
 
 type gridProps = {
     selectedFields: Fields[];
@@ -18,19 +19,20 @@ export const Grid = ({selectedFields}: gridProps) => {
     const columnDefs: ColDef[] = [
         ...field.map((field) => {
             return {
-                headerName: field,
+                headerName: Fields[field as keyof typeof Fields],
                 field: field,
                 valueFormatter: (params: { value: any; }) =>
                     formatData(params.value, Fields[field as keyof typeof Fields]),
             };
         }),
+        {headerName: "Key", field: "my_unique_id", hide: true}
     ];
     
     useEffect(() => {
         getCountries({service, fields: field}).then(
             (response) => {
                 if (response.error.length === 0) {
-                    const countries = response.data;
+                    const countries = response.response;
                     setRowData(countries);
                 } else {
                     setRowData([]);
@@ -54,6 +56,10 @@ export const Grid = ({selectedFields}: gridProps) => {
                             minWidth: 50,
                         }}
                         pagination={true}
+                        onCellClicked={(event) => {
+                            console.log(event.data);
+                            Modal(event.data, true);
+                        }}
                     />
                 </div>
                 </div>
