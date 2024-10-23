@@ -6,7 +6,9 @@ import { Grid } from './grid-components/grid-container';
 function App() {
   return (
     <div className="App">
-      <Grid />
+      <div style={{height: '100vh'}}>
+        <Grid />
+      </div>
     </div>
   );
 }
