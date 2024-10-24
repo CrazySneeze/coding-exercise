@@ -188,7 +188,7 @@ export const formatData = (value: any, field: Fields) => {
             case Fields.landlocked:
                 return value;
             case Fields.area:
-                return value;
+                return value.toLocaleString();;
             case Fields.demonyms:
                 return Object.keys(value).filter(
                     (demonym) => value[demonym].f && value[demonym].m

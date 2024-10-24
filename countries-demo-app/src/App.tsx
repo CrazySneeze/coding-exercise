@@ -33,7 +33,10 @@ function App() {
   const [data, setData] = useState<any>();
   const field = selectableFields.map((field) => field);
   useEffect(() => {
-    getCountries({service: filterField && searchText ? filterField : 'all', filterValue: searchText, fields: [...field, 'ccn3']}).then(
+    getCountries({
+      service: filterField && searchText ? filterField : 'all',
+      filterValue: filterField ? searchText : '', fields: [...field, 'ccn3']
+    }).then(
         (response) => {
             if (response.error.length === 0) {
                 const countries = response.response;
