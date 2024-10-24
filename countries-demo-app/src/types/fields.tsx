@@ -9,7 +9,7 @@ export enum Fields {
     independent = "independent",
     status = "status",
     unMember = "unMember",
-    currencies = "currencies",
+    currency = "currency",
     idd = "idd",
     capital = "capital",
     altSpellings = "altSpellings",
@@ -40,7 +40,7 @@ export enum descriptions {
     independent = "Independence status",
     status = "ISO 3166-1 assignment status",
     unMember = "UN Member Status",
-    currencies = "Currencies",
+    currency = "Currencies",
     idd = "International dialing codes",
     capital = "Capital",
     altSpellings = "Alternate spellings",
@@ -80,7 +80,7 @@ export type CountriesData = {
     [Fields.independent]: boolean;
     [Fields.status]: string;
     [Fields.unMember]: boolean;
-    [Fields.currencies]: {
+    [Fields.currency]: {
         [key: string]: {
             name: string;
             symbol: string;
@@ -161,7 +161,7 @@ export const formatData = (value: any, field: Fields) => {
                 return value;
             case Fields.unMember:
                 return value;
-            case Fields.currencies:
+            case Fields.currency:
                 return Object.keys(value).filter(
                     (currency) => value[currency].name && value[currency].symbol
                 ).map(

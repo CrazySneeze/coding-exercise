@@ -4,18 +4,16 @@ import { ColDef, RowClickedEvent } from "ag-grid-community";
 import { getCountries } from "../API/Countries";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { descriptions, Fields, formatData } from "../types/fields";
+import { CountriesData, descriptions, Fields, formatData } from "../types/fields";
 import { Modal } from "../Modal/modal";
 
 type gridProps = {
-    selectedFields: Fields[];
-}
+    selectableFields: Array<Fields>;
+    data: Array<CountriesData>;
+};
 
-export const Grid = ({selectedFields}: gridProps) => {
-    const [rowData, setRowData] = useState<Array<any>>();
-    const [error, setError] = useState<string>();
-    const service = "all";
-    const field = selectedFields.map((field) => field);
+export const Grid = ({selectableFields, data}: gridProps) => {
+    const field = selectableFields.map((field) => field);
     const columnDefs: ColDef[] = [
         ...field.map((field) => {
             return {
@@ -27,21 +25,6 @@ export const Grid = ({selectedFields}: gridProps) => {
         }),
         {field: 'ccn3', headerName: 'ccn3', hide: true},
     ];
-    
-    useEffect(() => {
-        getCountries({service, fields: [...field, 'ccn3']}).then(
-            (response) => {
-                console.log(response);
-                if (response.error.length === 0) {
-                    const countries = response.response;
-                    setRowData(countries);
-                } else {
-                    setRowData([]);
-                    console.log(response.error);
-                }
-            }
-        );
-    }, [selectedFields]);
 
     const [modalCode, setModalCode] = useState<string>();
     const [modalopen, setModalOpen] = useState<boolean>(false);
@@ -53,11 +36,11 @@ export const Grid = ({selectedFields}: gridProps) => {
 
     return (
         <div style={{ height: '100%', width: '100%' }}>
-            {rowData &&
+            {data &&
             <div style={{ height: '95%', width: '100%' }}>
                 <div className="ag-theme-alpine ag-grid-wrapper" style={{ height: '100%', width: '100%' }}>
                     <AgGridReact
-                        rowData={rowData}
+                        rowData={data}
                         columnDefs={columnDefs}
                         defaultColDef={{
                             sortable: true,
@@ -71,15 +54,9 @@ export const Grid = ({selectedFields}: gridProps) => {
                 </div>
             }
             {
-                !rowData &&
+                !data &&
                 <div>
                     Loading ...
-                </div>
-            }
-            {
-                error &&
-                <div>
-                    {error}
                 </div>
             }
             {
