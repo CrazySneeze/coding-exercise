@@ -1,9 +1,14 @@
 import { ColDef } from "ag-grid-community";
 import { descriptions, Fields, formatData } from "../types/fields";
 
-export const getColumnDefinitions = (selectedFields: Array<Fields>): Array<ColDef> => {
+export const getColumnDefinitions = (selectedFields: Array<Fields>, favourites: Array<string>): Array<ColDef> => {
     const field = selectedFields.map((field) => field);
     const columnDefs: ColDef[] = [
+        {
+            headerName: 'Favourite',
+            field: 'favourite',
+            valueGetter: (params) => favourites.includes(params.data.ccn3) ? '❤️' : '🤍',
+        },
         ...field.map((field) => {
             if (field === Fields.flags) {
                 return {

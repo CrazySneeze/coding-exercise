@@ -9,6 +9,14 @@ import { getCountries } from './API/Countries';
 function App() {
   const [filterField, setFielterField] = useState<Fields | undefined>(undefined);
   const [searchText, setSearchText] = useState<string>('');
+  const [favourites, setFavourites] = useState<string[]>(() => {
+    const localData = localStorage.getItem('favourites');
+    return localData ? JSON.parse(localData) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('favourites', JSON.stringify(favourites));
+  }, [favourites])
 
   const selectableFields = [
     Fields.name,
@@ -49,8 +57,11 @@ function App() {
 
         />
         <Grid
+          favourites={favourites}
+          setFavourites={setFavourites}
           selectableFields={selectableFields}
           data={data}
+          setData={setData}
         /> 
       </div>
     </div>

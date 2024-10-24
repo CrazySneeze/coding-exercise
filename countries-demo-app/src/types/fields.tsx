@@ -200,7 +200,7 @@ export const formatData = (value: any, field: Fields) => {
             case Fields.maps:
                 return `${value?.googleMaps}, ${value?.openStreetMaps}`;
             case Fields.population:
-                return value;
+                return value.toLocaleString();
             case Fields.car:
                 return `${value?.signs?.join(', ')} (${value?.side})`;
             case Fields.timezones:
