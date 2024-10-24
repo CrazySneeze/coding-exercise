@@ -13,11 +13,10 @@ function App() {
   const selectableFields = [
     Fields.name,
     Fields.capital,
-    Fields.currency,
+    Fields.currencies,
     Fields.languages,
     Fields.population,
     Fields.flags,
-    Fields.flag,
     Fields.area,
     Fields.tld,
     Fields.idd,
@@ -28,7 +27,6 @@ function App() {
   useEffect(() => {
     getCountries({service: filterField && searchText ? filterField : 'all', filterValue: searchText, fields: [...field, 'ccn3']}).then(
         (response) => {
-            console.log(response);
             if (response.error.length === 0) {
                 const countries = response.response;
                 setData(countries);

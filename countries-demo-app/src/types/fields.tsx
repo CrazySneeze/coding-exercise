@@ -9,7 +9,7 @@ export enum Fields {
     independent = "independent",
     status = "status",
     unMember = "unMember",
-    currency = "currency",
+    currencies = "currencies",
     idd = "idd",
     capital = "capital",
     altSpellings = "altSpellings",
@@ -40,7 +40,7 @@ export enum descriptions {
     independent = "Independence status",
     status = "ISO 3166-1 assignment status",
     unMember = "UN Member Status",
-    currency = "Currencies",
+    currencies = "Currencies",
     idd = "International dialing codes",
     capital = "Capital",
     altSpellings = "Alternate spellings",
@@ -80,7 +80,7 @@ export type CountriesData = {
     [Fields.independent]: boolean;
     [Fields.status]: string;
     [Fields.unMember]: boolean;
-    [Fields.currency]: {
+    [Fields.currencies]: {
         [key: string]: {
             name: string;
             symbol: string;
@@ -161,7 +161,7 @@ export const formatData = (value: any, field: Fields) => {
                 return value;
             case Fields.unMember:
                 return value;
-            case Fields.currency:
+            case Fields.currencies:
                 return Object.keys(value).filter(
                     (currency) => value[currency].name && value[currency].symbol
                 ).map(
@@ -206,7 +206,7 @@ export const formatData = (value: any, field: Fields) => {
             case Fields.timezones:
                 return value?.join(', ');
             case Fields.flags:
-                return `${value?.png}, ${value?.svg}, ${value?.alt}`;
+                return <img src={value.svg} alt={value.alt}/>;
             case Fields.coatOfArms:
                 return `${value?.png}, ${value?.svg}`;
             case Fields.startOfWeek:

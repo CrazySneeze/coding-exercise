@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef, RowClickedEvent } from "ag-grid-community";
+import { ColDef, RowClickedEvent, SizeColumnsToContentStrategy, SizeColumnsToFitGridStrategy, SizeColumnsToFitProvidedWidthStrategy } from "ag-grid-community";
 import { getCountries } from "../API/Countries";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { CountriesData, descriptions, Fields, formatData } from "../types/fields";
 import { Modal } from "../Modal/modal";
+import { getColumnDefinitions } from "./column-definitions";
 
 type gridProps = {
     selectableFields: Array<Fields>;
@@ -13,18 +14,7 @@ type gridProps = {
 };
 
 export const Grid = ({selectableFields, data}: gridProps) => {
-    const field = selectableFields.map((field) => field);
-    const columnDefs: ColDef[] = [
-        ...field.map((field) => {
-            return {
-                headerName: descriptions[field],
-                field: field,
-                valueFormatter: (params: { value: any; }) =>
-                    formatData(params.value, field),
-            };
-        }),
-        {field: 'ccn3', headerName: 'ccn3', hide: true},
-    ];
+    const columnDefs = getColumnDefinitions(selectableFields);
 
     const [modalCode, setModalCode] = useState<string>();
     const [modalopen, setModalOpen] = useState<boolean>(false);
@@ -34,6 +24,17 @@ export const Grid = ({selectableFields, data}: gridProps) => {
         setModalOpen(true);
     }
 
+    const autoSizeStrategy = useMemo<
+        | SizeColumnsToFitGridStrategy
+        | SizeColumnsToFitProvidedWidthStrategy
+        | SizeColumnsToContentStrategy
+    >(() => {
+        return {
+            type: "fitGridWidth",
+            defaultMinWidth: 50,
+            ignoreColumnsFit: [],
+        };
+    }, []);
     return (
         <div style={{ height: '100%', width: '100%' }}>
             {data &&
@@ -49,6 +50,7 @@ export const Grid = ({selectableFields, data}: gridProps) => {
                         }}
                         pagination={true}
                         onRowClicked={onRowClicked}
+                        autoSizeStrategy={autoSizeStrategy}
                     />
                 </div>
                 </div>
