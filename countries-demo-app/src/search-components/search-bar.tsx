@@ -34,30 +34,6 @@ export const SearchWithDropDown = ({
                 }
             </select>
             <input type='text' placeholder='Search...' onChange={(event) => {setSearchText(event.target.value)}} value={searchText}/>
-            {/* <div
-                style={{
-                    display: 'flex',
-                    gap: '8px',
-                    margin: '8px',
-                    padding: '4px',
-                    border: '1px solid #a3a2a2',
-                    borderRadius: '3px',
-                    cursor: 'text'
-                }}
-            >
-                <div style={{display: 'flex', gap: '8px'}}>
-
-                    <span style={{display: 'flex', gap: '2px', padding: '0px 4px 0px 4px', border: '1px solid #a3a2a2',
-                        borderRadius: '3px',}}>
-                        <div
-
-                        >x</div>
-                    </span>
-                </div>
-            </div>
-            <div style={{zIndex: 1, position: 'absolute', background: 'white', width: '20%', left: '5%', gap: '16px'}}>
-
-            </div> */}
         </div>
     )
 }
