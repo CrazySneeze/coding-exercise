@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef } from "ag-grid-community";
+import { ColDef, RowClickedEvent } from "ag-grid-community";
 import { getCountries } from "../API/Countries";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -25,12 +25,13 @@ export const Grid = ({selectedFields}: gridProps) => {
                     formatData(params.value, Fields[field as keyof typeof Fields]),
             };
         }),
-        {headerName: "Key", field: "my_unique_id", hide: true}
+        {field: 'ccn3', headerName: 'ccn3', hide: true},
     ];
     
     useEffect(() => {
-        getCountries({service, fields: field}).then(
+        getCountries({service, fields: [...field, 'ccn3']}).then(
             (response) => {
+                console.log(response);
                 if (response.error.length === 0) {
                     const countries = response.response;
                     setRowData(countries);
@@ -41,6 +42,12 @@ export const Grid = ({selectedFields}: gridProps) => {
             }
         );
     }, [selectedFields]);
+
+    const [modalCode, setModalCode] = useState<string>();
+
+    const onRowClicked = (event: RowClickedEvent) => {
+        setModalCode(event.data.ccn3);
+    }
 
     return (
         <div style={{ height: '100%', width: '100%' }}>
@@ -56,10 +63,7 @@ export const Grid = ({selectedFields}: gridProps) => {
                             minWidth: 50,
                         }}
                         pagination={true}
-                        onCellClicked={(event) => {
-                            console.log(event.data);
-                            Modal(event.data, true);
-                        }}
+                        onRowClicked={onRowClicked}
                     />
                 </div>
                 </div>
@@ -76,6 +80,13 @@ export const Grid = ({selectedFields}: gridProps) => {
                     {error}
                 </div>
             }
-            </div>
+            {
+                modalCode &&
+                <Modal
+                    ccn3={modalCode}
+                    open={true}
+                />
+            }
+        </div>
     );
 }

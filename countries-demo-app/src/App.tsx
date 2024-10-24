@@ -15,8 +15,6 @@ function App() {
     }
   }
 
-  console.log(selectedFields);
-
   return (
     <div className="App">
       <div style={{height: '100vh'}}>

@@ -105,10 +105,7 @@ export type CountriesData = {
 }
 
 export type CountriesResponse = {
-    response: {
-        id: string;
-        data: CountriesData;
-    }[];
+    response: CountriesData[];
     error: Array<string>;
 }
 

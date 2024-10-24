@@ -15,6 +15,19 @@ export const SearchWithDropDown = ({
     searchFieldOpen,
     setSearchFieldOpen,
 }: SearchBarProps) => {
+    const selectableFields = [
+        'name',
+        'capital',
+        'currencies',
+        'languages',
+        'population',
+        'flags',
+        'flag',
+        'area',
+        'tld',
+        'idd',
+    ];
+
     const handleSelect = (field: Fields) => {
         setSelectedFields([...selectedFields, field]);
     };
@@ -47,7 +60,7 @@ export const SearchWithDropDown = ({
                 searchFieldOpen &&
                 (
                     <div style={{zIndex: 1, position: 'absolute', background: 'white', width: '20%', left: '5%', gap: '16px'}}>
-                        {Object.keys(Fields).map((field) => (
+                        {selectableFields.map((field) => (
                             <div onClick={() => handleSelect(field as Fields)}>
                                 {Fields[field as keyof typeof Fields]}
                             </div>
