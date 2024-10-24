@@ -50,8 +50,8 @@ export enum descriptions {
     latlng = "Latitude and longitude",
     landlocked = "Landlocked",
     area = "Area",
-    demonyms = "Inhabitants of the country",
-    flag = "Flag",
+    demonyms = "Genderized inhabitants of the country",
+    flag = "Flag Emoji",
     maps = "Maps",
     population = "Population",
     car = "car",
@@ -198,7 +198,7 @@ export const formatData = (value: any, field: Fields) => {
             case Fields.flag:
                 return value;
             case Fields.maps:
-                return `${value?.googleMaps}, ${value?.openStreetMaps}`;
+                return <div><a href={value?.googleMaps}>Maps</a> <a href={value?.openStreetMaps}>Street View</a></div>;
             case Fields.population:
                 return value.toLocaleString();
             case Fields.car:
@@ -206,9 +206,9 @@ export const formatData = (value: any, field: Fields) => {
             case Fields.timezones:
                 return value?.join(', ');
             case Fields.flags:
-                return <img src={value.svg} alt={value.alt}/>;
+                return <img src={value.svg} alt={value.alt} width={100}/>;
             case Fields.coatOfArms:
-                return `${value?.png}, ${value?.svg}`;
+                return <img src={value.svg} alt={value.alt} width={100}/>;
             case Fields.startOfWeek:
                 return value;
             case Fields.capitalInfo:
