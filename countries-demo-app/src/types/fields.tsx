@@ -1,6 +1,37 @@
 import React from "react";
 
 export enum Fields {
+    name = "name",
+    tld = "tld",
+    cca2 = "cca2",
+    ccn3 = "ccn3",
+    cca3 = "cca3",
+    independent = "independent",
+    status = "status",
+    unMember = "unMember",
+    currencies = "currencies",
+    idd = "idd",
+    capital = "capital",
+    altSpellings = "altSpellings",
+    region = "region",
+    languages = "languages",
+    translations = "translations",
+    latlng = "latlng",
+    landlocked = "landlocked",
+    area = "area",
+    demonyms = "demonyms",
+    flag = "flag",
+    maps = "maps",
+    population = "population",
+    car = "car",
+    timezones = "timezones",
+    flags = "flags",
+    coatOfArms = "coatOfArms",
+    startOfWeek = "startOfWeek",
+    capitalInfo = "capitalInfo"
+}
+
+export enum descriptions {
     name = "Name",
     tld = "Top Level Domain",
     cca2 = "ISO 3166-1 alpha-2 two-letter country codes",

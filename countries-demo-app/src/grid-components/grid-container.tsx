@@ -4,7 +4,7 @@ import { ColDef, RowClickedEvent } from "ag-grid-community";
 import { getCountries } from "../API/Countries";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { Fields, formatData } from "../types/fields";
+import { descriptions, Fields, formatData } from "../types/fields";
 import { Modal } from "../Modal/modal";
 
 type gridProps = {
@@ -19,10 +19,10 @@ export const Grid = ({selectedFields}: gridProps) => {
     const columnDefs: ColDef[] = [
         ...field.map((field) => {
             return {
-                headerName: Fields[field as keyof typeof Fields],
+                headerName: descriptions[field],
                 field: field,
                 valueFormatter: (params: { value: any; }) =>
-                    formatData(params.value, Fields[field as keyof typeof Fields]),
+                    formatData(params.value, field),
             };
         }),
         {field: 'ccn3', headerName: 'ccn3', hide: true},
@@ -44,9 +44,11 @@ export const Grid = ({selectedFields}: gridProps) => {
     }, [selectedFields]);
 
     const [modalCode, setModalCode] = useState<string>();
+    const [modalopen, setModalOpen] = useState<boolean>(false);
 
     const onRowClicked = (event: RowClickedEvent) => {
         setModalCode(event.data.ccn3);
+        setModalOpen(true);
     }
 
     return (
@@ -84,7 +86,8 @@ export const Grid = ({selectedFields}: gridProps) => {
                 modalCode &&
                 <Modal
                     ccn3={modalCode}
-                    open={true}
+                    open={modalopen}
+                    setOpen={setModalOpen}
                 />
             }
         </div>

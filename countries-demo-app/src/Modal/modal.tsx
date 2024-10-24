@@ -5,14 +5,17 @@ import { getByCode, getCountries } from "../API/Countries";
 type modalProps = {
     ccn3: string;
     open: boolean;
+    setOpen: (open: boolean) => void;
 }
 
-export const Modal = ({ccn3, open}: modalProps) => {
+export const Modal = ({ccn3, open, setOpen}: modalProps) => {
     const [data, setData] = useState<CountriesData>();
     useEffect(() => {
+        setData(undefined);
         getByCode(ccn3).then(
             (response) => {
-                console.log(response.response[0]);
+                console.log(response);
+                console.log(response.response[0][Fields.name]);
                 if (response.error.length === 0) {
                     setData(response.response[0]);
                 } else {
@@ -22,7 +25,7 @@ export const Modal = ({ccn3, open}: modalProps) => {
         ).catch((error) => {
             console.log(error);
         });
-    }, []);
+    }, [ccn3]);
 
     return (
         <div>
@@ -38,16 +41,49 @@ export const Modal = ({ccn3, open}: modalProps) => {
                         color: 'white',
                         padding: '16px',
                         border: '2px solid #a3a2a2',
-                        borderRadius: '5px',
+                        borderRadius: '5px',   
                     }}>
-                        
-                        {data ? Object.keys(data).map(
-                            (key) => 
-                                <div key={key}>
-                                    <h3>{key}</h3>
-                                    <p>{formatData(data[key as Fields], key as Fields).toString()}</p>
-                                </div> 
-                        ) : ''}
+                        {data && (
+                            <div>
+                                <div>
+                                    {data[Fields.name].common}
+                                </div>
+                                <div>
+                                    <div>Name info</div>
+                                    <div>{data[Fields.name].official}</div>
+                                    <div>{Object.keys(data[Fields.name].nativeName).map(
+                                        (key) => (
+                                            <div key={key}>
+                                                {key}
+                                                <div>
+                                                    {data[Fields.name].nativeName[key].official}
+                                                    {data[Fields.name].nativeName[key].common}
+                                                </div>
+                                            </div>
+                                        )
+                                    )}</div>
+
+                                </div>
+                                <div>
+                                    <div>Capital</div>
+                                    <div>
+                                        {data[Fields.capital].map(
+                                            (key, index) => (
+                                                <div key={index}>
+                                                    {key}
+                                                </div>
+                                            )
+                                        )}
+                                        {
+                                            formatData(data[Fields.capitalInfo], Fields.capitalInfo)
+                                        }
+                                    </div>
+                                    <div>Car</div>
+                                    
+                                </div>
+                            </div>
+                        )}
+                        <button onClick={() => setOpen(false)}>Close</button>
                     </div>
                 </div>
             )}

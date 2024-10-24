@@ -18,19 +18,23 @@ function App() {
   return (
     <div className="App">
       <div style={{height: '100vh'}}>
-        <SearchWithDropDown
-          selectedFields={selectedFields}
-          setSelectedFields={setSelectedFields}
-          searchFieldOpen={searchFieldOpen}
-          setSearchFieldOpen={updateSearchFieldOpen}
-        />
+        <div style={{width: '30%'}}>
+          <SearchWithDropDown
+            selectedFields={selectedFields}
+            setSelectedFields={setSelectedFields}
+            searchFieldOpen={searchFieldOpen}
+            setSearchFieldOpen={updateSearchFieldOpen}
+          />
+        </div>
         <div
           onClick={() => setSearchFieldOpen(false)}
           style={{height: '100%'}}
         >
-          <Grid
-            selectedFields={selectedFields}
-          />
+          {selectedFields.length > 0 ?
+            <Grid
+              selectedFields={selectedFields}
+            /> : <div>You currently have no fields selected. Please use the search bar at the top to select some</div>
+          }
         </div>
       </div>
     </div>
